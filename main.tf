@@ -149,6 +149,7 @@ resource "aws_route_table_association" "public_subnet2" {
 
 #**********************Subnet**********************
 resource "aws_subnet" "subnetA" {
+    availability_zone = "us-east-1a"
   vpc_id     = aws_vpc.main_vpc.id
   cidr_block = "10.0.1.0/24"
 
@@ -159,7 +160,7 @@ resource "aws_subnet" "subnetA" {
 
 #**********************Public Subnet 2**********************
 resource "aws_subnet" "subnetAA" {
-  availability_zone = "us-east-1a"
+  availability_zone = "us-east-1b"
   vpc_id     = aws_vpc.main_vpc.id
   cidr_block = "10.0.2.0/24"
 
@@ -175,7 +176,7 @@ resource "aws_route_table_association" "private" {
 
 #**********************Private Subnet**********************
 resource "aws_subnet" "subnetB" {
-    availability_zone = "us-east-1b"
+    availability_zone = "us-east-1a"
   vpc_id     = aws_vpc.main_vpc.id
   cidr_block = "10.0.3.0/24"
 
@@ -240,11 +241,9 @@ resource "aws_lb_listener" "front_end" {
     target_group_arn = aws_lb_target_group.alb_tgp.arn
   }
 }
-
 resource "aws_autoscaling_attachment" "associate" {
   autoscaling_group_name = aws_autoscaling_group.bar.id
   lb_target_group_arn   = aws_lb_target_group.alb_tgp.arn
 }
-
 
 
